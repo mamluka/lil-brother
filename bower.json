@@ -1,0 +1,12 @@
+{
+  "name": "lil-brother-client",
+  "version": "0.1.0",
+  "authors": [
+    "david <david.mazvovsky@gmail.com>"
+  ],
+  "description": "Li'l Brother tracks clicks on web pages, without blocking any interaction.",
+  "main": "client/src/LilBro.js",
+  "license": "MIT",
+  "homepage": "https://github.com/mamluka/lil-brother",
+  "private": true
+}
