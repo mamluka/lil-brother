@@ -34,7 +34,8 @@
 		browser: 23,
 		browser_version: 24,
 		operating_system: 25,
-		request_path: 26
+		request_path: 26,
+        hash_path: 27
 	};
 
 	root.LilBro.Schema.type_map = {

@@ -295,6 +295,7 @@ LilBro.Event = function (args) {
 
 		// path part of url
 		this.set('request_path', window.location.pathname);
+		this.set('hash_path', window.location.hash);
 
 		// other client bits
 		var d = new Date();
