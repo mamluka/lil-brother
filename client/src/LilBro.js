@@ -371,3 +371,173 @@ LilBro.Event = function (args) {
 	this.initialize(args);
 }
 
+LilBro = window.LilBro || {};
+
+// browser detection lifted from quirksmode
+LilBro.BrowserDetect = {
+    init: function () {
+        this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+        this.version = this.searchVersion(navigator.userAgent)
+            || this.searchVersion(navigator.appVersion)
+            || "an unknown version";
+        this.OS = this.searchString(this.dataOS) || "an unknown OS";
+    },
+    searchString: function (data) {
+        for (var i=0;i<data.length;i++){
+            var dataString = data[i].string;
+            var dataProp = data[i].prop;
+            this.versionSearchString = data[i].versionSearch || data[i].identity;
+            if (dataString) {
+                if (dataString.indexOf(data[i].subString) != -1)
+                    return data[i].identity;
+            }
+            else if (dataProp)
+                return data[i].identity;
+        }
+    },
+    searchVersion: function (dataString) {
+        var index = dataString.indexOf(this.versionSearchString);
+        if (index == -1) return;
+        return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+    },
+    dataBrowser: [
+        {
+            string: navigator.userAgent,
+            subString: "Chrome",
+            identity: "Chrome"
+        },
+        { string: navigator.userAgent,
+            subString: "OmniWeb",
+            versionSearch: "OmniWeb/",
+            identity: "OmniWeb"
+        },
+        {
+            string: navigator.vendor,
+            subString: "Apple",
+            identity: "Safari",
+            versionSearch: "Version"
+        },
+        {
+            prop: window.opera,
+            identity: "Opera",
+            versionSearch: "Version"
+        },
+        {
+            string: navigator.vendor,
+            subString: "iCab",
+            identity: "iCab"
+        },
+        {
+            string: navigator.vendor,
+            subString: "KDE",
+            identity: "Konqueror"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "Firefox",
+            identity: "Firefox"
+        },
+        {
+            string: navigator.vendor,
+            subString: "Camino",
+            identity: "Camino"
+        },
+        {// for newer Netscapes (6+)
+            string: navigator.userAgent,
+            subString: "Netscape",
+            identity: "Netscape"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "MSIE",
+            identity: "Explorer",
+            versionSearch: "MSIE"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "Gecko",
+            identity: "Mozilla",
+            versionSearch: "rv"
+        },
+        { // for older Netscapes (4-)
+            string: navigator.userAgent,
+            subString: "Mozilla",
+            identity: "Netscape",
+            versionSearch: "Mozilla"
+        }
+    ],
+    dataOS : [
+        {
+            string: navigator.platform,
+            subString: "Win",
+            identity: "Windows"
+        },
+        {
+            string: navigator.platform,
+            subString: "Mac",
+            identity: "Mac"
+        },
+        {
+            string: navigator.userAgent,
+            subString: "iPhone",
+            identity: "iPhone/iPod"
+        },
+        {
+            string: navigator.platform,
+            subString: "Linux",
+            identity: "Linux"
+        }
+    ]
+
+};
+
+try { LilBro.BrowserDetect.init() } catch (e) {}
+
+(function(){
+
+    var root = this;
+
+    root.LilBro = root.LilBro || {};
+    root.LilBro.Schema = {};
+
+    root.LilBro.Schema.version = "default";
+
+    root.LilBro.Schema.key_map  = {
+        // leave slot 0 for the server timestamp
+        version: 1,
+        timestamp: 2,
+        event_type: 3,
+        visitor_id: 4,
+        visit_id: 5,
+        mouse_x: 6,
+        mouse_y: 7,
+        viewport_width: 8,
+        viewport_height: 9,
+        scroll_x: 10,
+        scroll_y: 11,
+        element_id: 12,
+        element_id_from: 13,
+        element_class: 14,
+        element_class_from: 15,
+        element_name: 16,
+        element_tag: 17,
+        element_type: 18,
+        element_checked: 19,
+        element_value: 20,
+        element_x: 21,
+        element_y: 22,
+        browser: 23,
+        browser_version: 24,
+        operating_system: 25,
+        request_path: 26,
+        hash_path: 27
+    };
+
+    root.LilBro.Schema.type_map = {
+        click: 1,
+        page_load: 2,
+        focusin: 3,
+        focusout: 4
+    };
+
+}).call(this)
